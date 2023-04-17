@@ -1,0 +1,61 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background-color: #DAF5FF;
+}
+.main{
+    background-color: #B9E9FC;
+    margin: 10em;
+    border: none;
+    border-radius: 2em;
+    height: 40em;
+    color:#5188b7;
+}
+img{
+    width: 4em;
+    height: 4em;
+}
+.dates{
+    background-color: #DAF5FF;
+    border: none;
+    border-radius: 1em;
+    height: 2.5em;
+    width: 9em;
+    align-items: center;
+    color: #5188b7;
+}
+.citi{
+    color: #5188b7;
+}.citi::placeholder{
+    color: #5188b7;
+}
+
+.city{
+    padding-left: 6em;
+}
+#cityname{
+    background-color: #DAF5FF;
+    border: none;
+    border-radius: 1em;
+    height: 2.5em;
+    width: 9em;
+    align-items: center;
+}
+.submit{
+    padding-left: 5em;
+}
+
+.sub{
+    background-color:
+       #5188b7 !important;
+
+}
+.sub:hover{
+    background-color: #FEFF86 ;
+}
