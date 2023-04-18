@@ -4,7 +4,12 @@ const submitBtn = document.getElementById("submitBtn");
 
 const dates = [];
 let temperature = []
+let tempe, wspeed;
+let windSpeed =[]
 submitBtn.addEventListener("click", function() {
+  dates.length = 0;
+  temperature.length = 0;
+  windSpeed.length = 0;
     const startDate = new Date(document.getElementById('start-date').value); 
     console.log(startDate)
     const endDate = new Date(document.getElementById('end-date').value);
@@ -18,47 +23,53 @@ submitBtn.addEventListener("click", function() {
     }
     
     console.log(dates);
+    getData();
   
 });
 
-const apiKey = '0e52de716b6e5aa91591a984f0116311';
-const city = document.getElementById('cityname').value;
-console.log(city)
-for(let i = 0; i<dates.length;i++){
-const selectedTimestamp = new Date(dates[i]).getTime() / 1000;
-const apiUrl = `https://api.openweathermap.org/data/2.5/weather?appid=${apiKey}&q={city}&dt=${selectedTimestamp}`;
+function getData(){
+  const apiKey = '0e52de716b6e5aa91591a984f0116311';
+  const city = document.getElementById('cityname').value;
+  console.log(city)
 
-const url = apiUrl.replace('{city}', city).replace('{apiKey}', apiKey);
-
-fetch(url)
-  .then(response => response.json())
-  .then(data => {
-      console.log(data)
-    tempe = data.main.temp;
-    console.log("this is  temp " + data.main.temp) 
-    // const date = new Date(data.dt * 1000); 
-
-    // const dateString = date.toLocaleDateString();
-    // console.log("this is  date " + dateString)
-    // console.log(data);
-  })
-  .catch(error => {
+  for(let i = 0; i<dates.length;i++){
+    console.log("dates"+dates[i])
+  const selectedTimestamp = new Date(dates[i]).getTime() / 1000;
+  const apiUrl = `https://api.openweathermap.org/data/2.5/weather?appid=${apiKey}&q=${city}&dt=${selectedTimestamp}`;
+  
+  const url = apiUrl.replace('{city}', city).replace('{apiKey}', apiKey);
+  
+  fetch(url)
+    .then(response => response.json())
+    .then(data => {
+        // console.log(data)
+      tempe = data.main.temp;
+      wspeed = data.wind.speed;
+    //   const date = new Date(selectedTimestamp * 1000); 
+    //   console.log("daateee"+date)
+    //  const dateString = date.toLocaleDateString();
+    //  console.log("this is  date " + dateString)
+      // console.log("this is  temp " + data.main.temp) 
+      // console.log("this is windspeed"+wspeed)
+      console.log("date is"+dates[i]+"temp"+tempe+"windspeed"+wspeed)
+      temperature.push(tempe)
+    // console.log(temperature)
+    windSpeed.push(wspeed)
+    // console.log(windSpeed)
     
-    console.error(error);
-  });
-  temperature.push(tempe)
+    plotGraph()
+    })
+    .catch(error => {
+      
+      console.error(error);
+    });
+    
+  }
 }
-
-
-
-let humidity = [15.2, 14, 15.9 , 14.9, 14]
-let  windspeed = [2.9, 2.4, 3.2 , 2.5, 3]
-// let dates = ["2023-01-01","2023-01-02","2023-01-03","2023-01-04","2023-01-05"]
-console.log(dates)
-function submit(){
-    
+var myChart
+function plotGraph(){
     var chartDom = document.getElementById('graph');
-    var myChart = echarts.init(chartDom);
+     myChart = echarts.init(chartDom);
     var option;
     
     option = {
@@ -67,7 +78,7 @@ function submit(){
         trigger: 'axis'
       },
       legend: {
-        data: ['Temperature', 'Humidity', 'Wind Speed']
+        data: ['Temperature','Wind Speed']
       },
       grid: {
         left: '3%',
@@ -96,16 +107,10 @@ function submit(){
           data: temperature,
         },
         {
-          name: 'Humidity',
-          type: 'line',
-          stack: 'Total',
-          data: humidity,
-        },
-        {
           name: 'Wind Speed',
           type: 'line',
           stack: 'Total',
-          data: windspeed,
+          data: windSpeed,
         },
        
       ]
@@ -113,3 +118,6 @@ function submit(){
     
      myChart.setOption(option);
 }
+window.addEventListener('resize', function() {
+  myChart.resize();
+});
