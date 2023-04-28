@@ -42,20 +42,15 @@ function getData(){
   fetch(url)
     .then(response => response.json())
     .then(data => {
-        // console.log(data)
+      
       tempe = data.main.temp;
       wspeed = data.wind.speed;
-    //   const date = new Date(selectedTimestamp * 1000); 
-    //   console.log("daateee"+date)
-    //  const dateString = date.toLocaleDateString();
-    //  console.log("this is  date " + dateString)
-      // console.log("this is  temp " + data.main.temp) 
-      // console.log("this is windspeed"+wspeed)
+   
       console.log("date is"+dates[i]+"temp"+tempe+"windspeed"+wspeed)
       temperature.push(tempe)
-    // console.log(temperature)
+    
     windSpeed.push(wspeed)
-    // console.log(windSpeed)
+   
     
     plotGraph()
     })
